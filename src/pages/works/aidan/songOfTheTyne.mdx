@@ -1,0 +1,41 @@
+---
+person: aidan
+title: Song of the Tyne
+image: SongTyne/SongOfTheTyne-finished.jpg
+completed: 2018-11
+designBy: Aidan & Margaret Nichol
+dimensions: 25x49.5in
+---
+
+import TextImage from '@components/TextImage.astro';
+import { Image } from '@astrojs/image/components';
+
+This is based on the cast concrete relief sculpture created by Henry and Joyce Collins and installed
+on the side of the BHS (now Primark) building in 1974.
+
+<Image src={import('/src/assets/images/SongTyne/PanelLarge.jpg')} height={180} />
+<Image src={import('/src/assets/images/SongTyne/PanelSmall.jpg')} height={180} />
+This work focuses on the facets that are associated with the river Tyne.
+
+The main features are
+
+<TextImage left='SongTyne/BridgesOriginal.jpg' right='SongTyne/Bridges.svg'>
+  In the top right are the bridges on the river in central Newcastle. The scuplture
+  features the Tyne , the Highlevel and the Swing bridges. I've added the Millenium foot
+  bridge, and the Queen Elizabeth metro bridge
+</TextImage>
+<TextImage left='SongTyne/TyneGod1.jpg' right='SongTyne/TyneGod2.jpg'>
+  The top left features the God of the Tyne. The image in the sculpture did not translate
+  well into quilting so the 'original' was used instead. This became popular when used as
+  the frontise piece of a book, *The History of Newcastel-upon-Tyne* 1790. This image was
+  derived from one of the sculpted heads on Sommerset House in London, depicting the seven
+  river of England
+</TextImage>
+<TextImage right='SongTyne/Seahorse.jpg'>
+  Bottom right --- Seahorses features as the supporter on the City of newcastle-upon-Tyne
+  cost of arms.
+</TextImage>
+<TextImage left='SongTyne/ShipBuilding.jpg' height={200}>
+  Bottom left is Shipbuilding. The original image has been amended by mirroring the layout
+  and adding a second crane.
+</TextImage>

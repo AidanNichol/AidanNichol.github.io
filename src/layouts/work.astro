@@ -1,0 +1,148 @@
+---
+import { Image, Picture } from "@astrojs/image/components";
+import { getImage } from "@astrojs/image";
+import Layout from "@layouts/default.astro";
+import Link from "@components/LinkTT.astro";
+import LinkTT from "@components/LinkTT.astro";
+import _ from "lodash-es";
+import { format, parse } from "date-fns";
+
+const { frontmatter: page } = Astro.props;
+import localImage from "/src/assets/images/BQSG Banner.jpg";
+import { Debug } from "astro/components";
+const allWorks = await Astro.glob("../pages/works/**/*.{md,mdx}");
+const worksF = allWorks.filter((w) => w.frontmatter.person === page.person);
+let prev, next, prevurl, nexturl;
+for (let i = 0; i < worksF.length; i++) {
+  const work = worksF[i];
+  const links = work.frontmatter;
+  if (links.title === page.title) {
+    if (i > 0) prev = worksF[i - 1];
+    if (i < worksF.length - 1) next = worksF[i + 1];
+  }
+}
+let img = `/src/assets/images/${page.image}`;
+
+let dispDate = (v) =>{
+    if (_.isNumber(v))return `${v}`;
+    if (v.length>10)v=v.substring(0,10);
+    let val= parse(v, "yyyy-MM-dd".substring(0, v.length), new Date());
+  return format(val, "MMM yyyy");
+}
+const mmToInch = (v) => {
+  let val = Math.round(v * 0.0393701 * 4); //convert to ¼ inches
+  // let ins = Math.floor(val / 4);
+  // let fract = ["", "¼", "½", "¾"][val % 4];
+  // console.log(v, val, ins, fract, val % 4);
+  return `${Math.floor(val / 4)}${["", "¼", "½", "¾"][val % 4]}`;
+};
+let dispDims = (v) => {
+  let [, wd, ht, units] = v.match(/([0-9.]+)\s*\S\s*([0-9.]+)\s*(in|cm|mm)/);
+  const fact = units === "cm" ? 10 : units === "in" ? 25.4 : 1;
+  let wdMm = _.round(wd * fact, 0);
+  let htMm = _.round(ht * fact, 0);
+  // console.log(wd, ht, wdMm, htMm, units);
+  return `${_.round(wdMm / 10, 0)}×${_.round(htMm / 10, 0)} cm (${mmToInch(
+    wdMm
+  )}×${mmToInch(htMm)} in)`;
+};
+
+console.log(page);
+let shortName = (work) => work.frontmatter.shortname || work.frontmatter.title;
+let completed = ["Completed", dispDate];
+let started = ["Started", dispDate];
+let dimensions = ["Dimensions", dispDims];
+let person = ["Created by", _.capitalize];
+let details = _.omit(page,[ 'image', 'title','shortname','file','url','astro','sortname','person']);
+const capitalize=(val:string)=>{
+  const words=_.split(val,' ').map(w=>(/^(a|the|of|in|mm|cm)$/g.test(w)?w:_.capitalize(w)))
+  return words.join(' ')
+}
+let gotCreatedBy=false;
+details=_.toPairs(details).map(([key,val])=> {
+  let label =_.capitalize( _.snakeCase(key).replace(/_/g, ' '));
+  if (label==='Created by')gotCreatedBy=true;
+  if (label==='Dimensions')val=dispDims(val);
+  if (['Completed','Started'].includes(key))val=dispDate(val);
+  console.log(key,val,label, capitalize(val))
+  return [label, capitalize(val)]
+});
+if (!gotCreatedBy)details.unshift( ['Created by',capitalize(`${page.person} Nichol`)]);
+
+details=_.uniqBy(details, (v)=>v[0])
+---
+
+<Layout>
+   <div class="prevNext">
+    {prev ? <LinkTT href={prev.url} title={shortName(prev)} tooltip left /> : <div />}
+
+    <h1>{page.title}</h1>
+    {next ? <LinkTT href={next.url} title={shortName(next)} tooltip right /> : <div />}
+  </div>
+  <div class="clearfix">
+    <div class="details">
+      {
+        (details).map(([label,val]) => {
+          if (!val) return;
+          return (
+              <span>{label}:</span><span>{val}</span> 
+          );
+        })
+      }
+    </div>
+
+    <slot />
+  </div>
+  <Picture
+    src={import(img)}
+    widths={[400, 700]}
+    sizes="(max-width:400px) 100vw, 700px"
+  />
+  <div class="prevNext">
+    {prev ? <Link href={prev.url} title={shortName(prev)} left /> : <div />}
+
+    {next ? <Link href={next.url} title={shortName(next)} right /> : <div />}
+  </div>
+</Layout>
+
+<style>
+  h1{
+    margin:0;
+    width:100%;
+    text-align: center;
+  }
+  .details {
+    float: right;
+    border: thin solid black;
+    padding: 4px;
+    font-size: 0.7em;
+    border-radius: 3px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    width: 250px;
+    justify-content: space-between;
+    grid-column-gap: 4px;
+  }
+  .prevNext {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+ 
+  .clearfix:after {
+    content: ".";
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+  }
+</style>
+<style>
+  .table {
+    display: grid;
+     grid-template-columns: 1fr auto;
+  }
+</style>

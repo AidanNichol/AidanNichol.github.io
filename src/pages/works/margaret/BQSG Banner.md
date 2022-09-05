@@ -1,0 +1,23 @@
+---
+person: margaret
+title: The BQSG Banner
+image: BQSG Banner.jpg
+createdBy: Margaret R Nichol
+designBy: Margaret Nichol
+started: 2009-11
+completed: 2010-01
+Dimensions: 24x30in
+---
+
+In 2009, _the Quilters Guide of the British Isles_ asked all the regions and specialist groups to make banners
+to represent themselves. The banners were to be used at the AGM and other event to create a presence for each part of the organisation.
+
+This created a bit of a problem for BQSG (_the British Quilt Study Group_) because we are a reseach group rather than a making group and our members are spread across the whole country.
+
+I met this challenge in various ways.
+
+- Our interest is ine social aspects of quilting both tradition and modern so the banner is made up of 6"
+  blocks using both range of techniques from the traditional _English Piecing over Papers_ throgh to _computerized machine quilting_
+  and _computer printing images onto fabric_.
+- The latter enabled me to include the two publications for the results of our members research _Quilt Studies_ and _Culcita_.
+- The blocks themselves include references to the 1718 coverlet, various tradition blocks, welsh quilting patterns.

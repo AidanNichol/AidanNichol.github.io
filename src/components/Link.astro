@@ -1,0 +1,131 @@
+---
+export interface Props {
+  title?: string;
+  href: string;
+  left?: boolean;
+  right?: boolean;
+  tooltip?: boolean;
+}
+
+const { href, title, left, right, tooltip } = Astro.props as Props;
+const url = new URL(Astro.request.url);
+const pathname = new URL(Astro.request.url).pathname;
+const active =
+  pathname === href ||
+  (href.length > 1 && pathname.startsWith(href.replace('persons', 'works')));
+---
+
+<div class:list={[{ active, left, right, tooltip }, 'link-card']}>
+  <a href={href}>
+    <h4>
+      {left && <img class:list={[{ left }]} src='/images/leftArrow.svg' />}
+      <span class='title'>{title}</span>
+      {right && <img src='/images/rightArrow.svg' />}
+    </h4>
+  </a>
+</div>
+<style>
+  :root {
+    --link-gradient: linear-gradient(
+      45deg,
+      #4f39fa,
+      #da62c4 30%,
+      var(--color-border) 60%
+    );
+  }
+  .active {
+    border: black solid thin;
+  }
+  img {
+    width: 1rem;
+    padding: 0 0.25rem;
+  }
+  .link-card {
+    list-style: none;
+    display: flex;
+    padding: 0.15rem;
+    background-image: var(--link-gradient);
+    background-size: 400%;
+    border-radius: 0.5rem;
+    background-position: 100%;
+    transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+  }
+  .tooltip .title {
+    display: none;
+  }
+  .link-card a {
+    width: 100%;
+    text-decoration: none;
+    line-height: 1.4;
+    padding: 0.1em 0.3em;
+    border-radius: 0.35rem;
+    color: var(--text-color);
+    background-color: white;
+    opacity: 0.8;
+  }
+
+  h4 {
+    margin: 0;
+    transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+  }
+
+  p {
+    margin-top: 0.75rem;
+    margin-bottom: 0;
+  }
+
+  h4 span {
+    display: inline-block;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .link-card:is(:hover, :focus-within) {
+    background-position: 0;
+  }
+
+  .link-card:is(:hover, :focus-within) h4 {
+    color: #4f39fa;
+  }
+
+  .tooltip:is(:hover, :focus-within) .title {
+    display: inline-block;
+  }
+  .link-card:is(:hover, :focus-within) h4 img {
+    will-change: transform;
+    transform: translateX(4px);
+  }
+  .link-card:is(:hover, :focus-within) h4 img.left {
+    will-change: transform;
+    transform: translateX(-4px);
+  }
+  .tooltip-text {
+    visibility: hidden;
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    color: #4f39fa;
+    background-image: var(--link-gradient);
+    background-size: 400%;
+    line-height: 1.4;
+    padding: 0.1em 0.3em;
+    border-radius: 0.35rem;
+    z-index: 100;
+    height: 30px;
+    top: -0.1em;
+  }
+  .link-card:hover .tooltip-text {
+    visibility: visible;
+  }
+  .left {
+    left: 0;
+  }
+
+  .right {
+    right: 0;
+  }
+</style>

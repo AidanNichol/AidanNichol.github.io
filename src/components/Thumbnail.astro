@@ -1,0 +1,18 @@
+---
+const { work } = Astro.props;//work frontmatter
+let img = await import('/src/assets/images/BQSG Banner.jpg');
+
+---
+    return (
+      <p>
+        {work.shortname ||  work.title}
+        <a href="{ work.url}">
+          <Image src={`@images/${work.image}`} width={100} format='jpeg' height={150} />
+          <Image src={img} width={100}  />
+          
+          <img src={`/thumbs/${work.image}`} alt="" />
+          
+        </a>
+      </p>
+        
+    );

@@ -1,0 +1,70 @@
+---
+export interface Props {
+  left?: string;
+  right?: string;
+  rotate?: boolean;
+  width?: number;
+  height?: number;
+}
+
+let {
+  left,
+  right,
+  rotate,
+  width = undefined,
+  height = undefined,
+} = Astro.props as Props;
+import _ from "lodash-es";
+import { Image, Picture } from "@astrojs/image/components";
+console.log(Astro.props);
+if (!width && !height) width = 150;
+let imgR = `/src/assets/images/${right}`;
+let imgL = `/src/assets/images/${left}`;
+let svgR = right && _.endsWith(right, ".svg");
+let svgL = left && _.endsWith(left, ".svg");
+const showImage = (what) => {
+  let img = `/src/assets/images/${what}`;
+  if (!what) return null;
+  // if (_.endsWith(what, ".svg")) return null;
+  // else return <Image src={import(img)} width={width} height={height} />;
+};
+---
+
+<div class:list={{ table: true, left, right, rotate }}>
+  {svgL && <img src={imgL} width={width} height={height} />}
+  {left && !svgL && <Image src={import(imgL)} width={width} height={height} />}
+  <slot />
+  {svgR && <img src={imgR} width={width} height={height} />}
+  {right && !svgR && <Image src={import(imgR)} width={width} height={height} />}
+</div>
+<style>
+  .table {
+    padding-top: 0.3em;
+    display: grid;
+    gap: 0.5rem;
+    margin: 0;
+    align-items: center;
+  }
+  .table.right {
+    grid-template-columns: 1fr auto;
+  }
+  .table.left {
+    grid-template-columns: auto 1fr;
+  }
+  .table.left.right {
+    grid-template-columns: auto 1fr auto;
+  }
+  .table :global(p) {
+    margin: 0;
+  }
+  .table :global(img) {
+  }
+  .rotate :global(img) {
+    transform: rotate(90deg);
+  }
+  .table :global(img:hover) {
+    transform: scale(2);
+    z-index: 1;
+    position: relative;
+  }
+</style>

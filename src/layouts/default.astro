@@ -1,0 +1,96 @@
+---
+import { Debug } from 'astro/components';
+import { Image, Picture } from '@astrojs/image/components';
+
+import Layout from '@layouts/Layout.astro';
+import Card from '../components/Card.astro';
+import Link from '@components/LinkTT.astro';
+
+let title = 'Aidan & Margaret Nichol';
+const persons = await Astro.glob('../pages/persons/*.md');
+let header = '/src/assets/images/SeahorseHeading2.jpg';
+---
+
+<Layout title='Aidan & Margaret Nichol'>
+  <main>
+    <!-- <header>
+			<Image src={import(header)} width={700} />
+		</header> -->
+
+    <div id='banner'>
+      <nav class='navbar'>
+        <Link href='/' title='Home' />
+
+        {
+          persons.map((person) => (
+            <Link href={person.url} title={person.frontmatter.shortname} />
+          ))
+        }
+      </nav>
+    </div>
+
+    <div class='wrapper'>
+      <section>
+        <slot />
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .navbar {
+    display: flex;
+    flex-direction: row;
+  }
+  a.active {
+    background-color: aqua;
+  }
+  :root {
+    --astro-gradient: linear-gradient(0deg, #4f39fa, #da62c4);
+  }
+
+  h1 {
+    width: 100%;
+    color: aquamarine;
+    background-color: blue;
+    padding: 0.5em 0;
+    border-radius: 0.5em;
+    margin: 0;
+    text-align: center;
+  }
+
+  main {
+    margin: auto;
+    padding: 1em;
+    max-width: 60ch;
+  }
+  #banner {
+    background: url('/images/SeahorseHeading4.jpg');
+    height: 121px;
+    width: 700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .text-gradient {
+    font-weight: 900;
+    background-image: var(--astro-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 100% 200%;
+    background-position-y: 100%;
+    border-radius: 0.4rem;
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      background-position-y: 0%;
+    }
+    50% {
+      background-position-y: 80%;
+    }
+  }
+</style>

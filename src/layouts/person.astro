@@ -1,0 +1,51 @@
+---
+import { Image } from "@astrojs/image/components";
+import Layout from "@layouts/default.astro";
+const { frontmatter: page } = Astro.props;
+const allWorks = await Astro.glob(`../pages/works/**/*.{md,mdx}`);
+const worksF = allWorks.filter((w) => w.frontmatter.person === page.person);
+for (const work of worksF) {
+  let imgN = `/src/assets/images/${work.frontmatter.image}`;
+  // console.log(imgN);
+  let img = await import(imgN);
+  // console.log(img);
+}
+const works = worksF.map((w) => w.frontmatter);
+const localImage2 = import(`@images/BQSG Banner.jpg`);
+// console.log(page);
+// console.log(localImage2);
+---
+
+<Layout>
+  <h1>{page.name}</h1>
+  <slot />
+  <div class="works">
+    {
+      worksF.map(async (workF) => {
+        let work = workF.frontmatter;
+        let img = `/src/assets/images/${work.image}`;
+        return (
+          <a href={workF.url}>
+            <Image src={import(img)} width={100} format="jpeg" height={100} />
+            {work.shortname || work.title}
+          </a>
+        );
+      })
+    }
+  </div>
+</Layout>
+<style>
+  .works {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 100px));
+    gap: 1rem;
+    padding: 0;
+  }
+  a {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: black;
+    font-size: 0.5rem;
+  }
+</style>
