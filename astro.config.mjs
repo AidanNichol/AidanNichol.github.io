@@ -10,17 +10,7 @@ import mdx from '@astrojs/mdx';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://AidanNichol.github.io',
-  integrations: [
-    image(),
-    mdx({
-      remarkPlugins: [
-        defaultLayoutPlugin,
-        remarkGfm,
-        [remarkSmartypants, { dashes: 'oldschool' }],
-      ],
-      // extendDefaultPlugins: true,
-    }),
-  ],
+  integrations: [image(), mdx()],
   markdown: {
     remarkPlugins: [
       defaultLayoutPlugin,
