@@ -6,13 +6,15 @@ export interface Props {
   right?: boolean;
   tooltip?: boolean;
 }
-
+import _ from 'lodash-es';
 const { href, title, left, right, tooltip } = Astro.props as Props;
 const url = new URL(Astro.request.url);
-const pathname = new URL(Astro.request.url).pathname;
+let pathname = new URL(Astro.request.url).pathname;
+pathname = pathname.length > 1 ? _.trimEnd(pathname, '/') : pathname;
 const active =
   pathname === href ||
   (href.length > 1 && pathname.startsWith(href.replace('persons', 'works')));
+// console.log(pathname, active, href);
 ---
 
 <div class:list={[{ active, left, right, tooltip }, 'link-card']}>
