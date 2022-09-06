@@ -6,12 +6,14 @@ import Link from "@components/LinkTT.astro";
 import LinkTT from "@components/LinkTT.astro";
 import _ from "lodash-es";
 import { format, parse } from "date-fns";
+import { parseImageName } from '@utils/parseImageName.mjs';
 
 const { frontmatter: page } = Astro.props;
 import localImage from "/src/assets/images/BQSG Banner.jpg";
 import { Debug } from "astro/components";
 const allWorks = await Astro.glob("../pages/works/**/*.{md,mdx}");
 const worksF = allWorks.filter((w) => w.frontmatter.person === page.person);
+// if (page.image)page.image = page?.image?.replace('.jpg', '');
 let prev, next, prevurl, nexturl;
 for (let i = 0; i < worksF.length; i++) {
   const work = worksF[i];
@@ -21,7 +23,6 @@ for (let i = 0; i < worksF.length; i++) {
     if (i < worksF.length - 1) next = worksF[i + 1];
   }
 }
-let img = `/src/assets/images/${page.image}`;
 
 let dispDate = (v) =>{
     if (_.isNumber(v))return `${v}`;
@@ -47,12 +48,8 @@ let dispDims = (v) => {
   )}×${mmToInch(htMm)} in)`;
 };
 
-console.log(page);
+// console.log(page);
 let shortName = (work) => work.frontmatter.shortname || work.frontmatter.title;
-let completed = ["Completed", dispDate];
-let started = ["Started", dispDate];
-let dimensions = ["Dimensions", dispDims];
-let person = ["Created by", _.capitalize];
 let details = _.omit(page,[ 'image', 'title','shortname','file','url','astro','sortname','person']);
 const capitalize=(val:string)=>{
   const words=_.split(val,' ').map(w=>(/^(a|the|of|in|mm|cm)$/g.test(w)?w:_.capitalize(w)))
@@ -64,12 +61,14 @@ details=_.toPairs(details).map(([key,val])=> {
   if (label==='Created by')gotCreatedBy=true;
   if (label==='Dimensions')val=dispDims(val);
   if (['Completed','Started'].includes(key))val=dispDate(val);
-  console.log(key,val,label, capitalize(val))
+  // console.log(key,val,label, capitalize(val))
   return [label, capitalize(val)]
 });
 if (!gotCreatedBy)details.unshift( ['Created by',capitalize(`${page.person} Nichol`)]);
 
 details=_.uniqBy(details, (v)=>v[0])
+        let [sub, img, extL] = parseImageName(page.image, page.person);
+
 ---
 
 <Layout>
@@ -94,9 +93,10 @@ details=_.uniqBy(details, (v)=>v[0])
     <slot />
   </div>
   <Picture
-    src={import(img)}
+    src={import(`../assets/images/${sub}/${img}.jpg`)}
     widths={[400, 700]}
     sizes="(max-width:400px) 100vw, 700px"
+    alt=""
   />
   <div class="prevNext">
     {prev ? <Link href={prev.url} title={shortName(prev)} left /> : <div />}

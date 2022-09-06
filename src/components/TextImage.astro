@@ -7,35 +7,48 @@ export interface Props {
   height?: number;
 }
 
-let {
-  left,
-  right,
-  rotate,
-  width = undefined,
-  height = undefined,
-} = Astro.props as Props;
-import _ from "lodash-es";
-import { Image, Picture } from "@astrojs/image/components";
-console.log(Astro.props);
+import _ from 'lodash-es';
+import { Image } from '@astrojs/image/components';
+import { parseImageName } from '@utils/parseImageName.mjs';
+
+let { left, right, rotate, width = undefined, height = undefined } = Astro.props as Props;
+// console.log(Astro.props);
 if (!width && !height) width = 150;
-let imgR = `/src/assets/images/${right}`;
-let imgL = `/src/assets/images/${left}`;
-let svgR = right && _.endsWith(right, ".svg");
-let svgL = left && _.endsWith(left, ".svg");
-const showImage = (what) => {
-  let img = `/src/assets/images/${what}`;
-  if (!what) return null;
-  // if (_.endsWith(what, ".svg")) return null;
-  // else return <Image src={import(img)} width={width} height={height} />;
-};
+let imgR: string, imgL;
+let svgR, svgL;
+let [subL, baseL, extL] = parseImageName(left);
+let [subR, baseR, extR] = parseImageName(right);
+
+if (extL === 'svg') svgL = baseL;
+else imgL = baseL;
+if (extR === 'svg') svgR = baseR;
+else imgR = baseR;
 ---
 
 <div class:list={{ table: true, left, right, rotate }}>
-  {svgL && <img src={imgL} width={width} height={height} />}
-  {left && !svgL && <Image src={import(imgL)} width={width} height={height} />}
+  {svgL && <img src={`/images/${svgL}.svg`} width={width} height={height} />}
+  {
+    imgL && (
+      <Image
+        src={import(`../assets/images/${subL}/${imgL}.jpg`)}
+        width={width}
+        height={height}
+        alt=''
+      />
+    )
+  }
   <slot />
-  {svgR && <img src={imgR} width={width} height={height} />}
-  {right && !svgR && <Image src={import(imgR)} width={width} height={height} />}
+  {svgR && <img src={`/images/${svgR}.svg`} width={width} height={height} />}
+  {
+    imgR && (
+      <Image
+        src={import(`../assets/images/${subR}/${imgR}.jpg`)}
+        width={width}
+        height={height}
+        alt=''
+      />
+    )
+  }
 </div>
 <style>
   .table {

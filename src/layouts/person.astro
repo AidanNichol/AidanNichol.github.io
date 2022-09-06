@@ -1,32 +1,39 @@
 ---
-import { Image } from "@astrojs/image/components";
-import Layout from "@layouts/default.astro";
+import { Image } from '@astrojs/image/components';
+import Layout from '@layouts/default.astro';
+import { parseImageName } from '@utils/parseImageName.mjs';
 const { frontmatter: page } = Astro.props;
 const allWorks = await Astro.glob(`../pages/works/**/*.{md,mdx}`);
 const worksF = allWorks.filter((w) => w.frontmatter.person === page.person);
-for (const work of worksF) {
-  let imgN = `/src/assets/images/${work.frontmatter.image}`;
-  // console.log(imgN);
-  let img = await import(imgN);
-  // console.log(img);
-}
+// page.frontmatter.image = page.frontmatter?.image.replace('.jpg', '');
+// for (const work of worksF) {
+//   let imgN = `../assets/images/${work.frontmatter.image}`;
+//   // console.log(imgN);
+//   let img = await import(imgN);
+//   // console.log(img);
+// }
 const works = worksF.map((w) => w.frontmatter);
-const localImage2 = import(`@images/BQSG Banner.jpg`);
-// console.log(page);
-// console.log(localImage2);
 ---
 
 <Layout>
   <h1>{page.name}</h1>
   <slot />
-  <div class="works">
+  <div class='works'>
     {
       worksF.map(async (workF) => {
         let work = workF.frontmatter;
-        let img = `/src/assets/images/${work.image}`;
+        let [sub, img, extL] = parseImageName(work.image);
+
+        // let img = work.image.replace('.jpg', '');
         return (
           <a href={workF.url}>
-            <Image src={import(img)} width={100} format="jpeg" height={100} />
+            <Image
+              src={import(`../assets/images/${sub || work.person}/${img}.jpg`)}
+              width={100}
+              format='jpeg'
+              height={100}
+              alt='image of the work'
+            />
             {work.shortname || work.title}
           </a>
         );

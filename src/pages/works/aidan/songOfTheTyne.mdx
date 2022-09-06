@@ -13,8 +13,16 @@ import { Image } from '@astrojs/image/components';
 This is based on the cast concrete relief sculpture created by Henry and Joyce Collins and installed
 on the side of the BHS (now Primark) building in 1974.
 
-<Image src={import('/src/assets/images/SongTyne/PanelLarge.jpg')} height={180} />
-<Image src={import('/src/assets/images/SongTyne/PanelSmall.jpg')} height={180} />
+<Image
+  src={import('/src/assets/images/SongTyne/PanelLarge.jpg')}
+  height={180}
+  alt='large panel'
+/>
+<Image
+  src={import('/src/assets/images/SongTyne/PanelSmall.jpg')}
+  height={180}
+  alt='small panel'
+/>
 This work focuses on the facets that are associated with the river Tyne.
 
 The main features are
