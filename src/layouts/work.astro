@@ -28,7 +28,6 @@ for (let i = 0; i < works.length; i++) {
 }
 
 let dispDate = (v) =>{
-  console.log('dispdate:',typeof v, v)
     if (_.isNumber(v))return `${v}`;
     if (v.length>10)v=v.substring(0,10);
     let val= parse(v, "yyyy-MM-dd".substring(0, v.length), new Date());
