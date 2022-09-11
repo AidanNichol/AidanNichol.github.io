@@ -4,11 +4,8 @@ import Layout from '@layouts/default.astro';
 import { parseImageName } from '@utils/parseImageName.mjs';
 import { getPersonsWorks } from '@utils/getPersonsWorks.mjs';
 const { frontmatter: page } = Astro.props;
-// const allWorks = await Astro.glob(`../pages/**/*.{md,mdx}`);
-// const worksF = allWorks.filter((w) => w.file.includes(`/${page.person}/`));
+
 const worksF = await getPersonsWorks(page.person);
-// const works = worksF.map((w) => w.frontmatter);
-// console.log(works);
 ---
 
 <Layout>
@@ -18,7 +15,7 @@ const worksF = await getPersonsWorks(page.person);
     {
       worksF.map(async (work) => {
         // let work = workF.frontmatter;
-        let [sub, img, extL] = parseImageName(work.image);
+        let [sub, img, extL] = parseImageName(work.thumbnail || work.image);
 
         // let img = work.image.replace('.jpg', '');
         return (

@@ -1,8 +1,9 @@
 export const getPersonsWorks = async (person) => {
   const allWorks = import.meta.glob('../pages/**/*.{md,mdx}');
-  const worksF = [];
+  const works = [];
   for (const path in allWorks) {
     if (!path.includes(`/${person}/`)) {
+      // console.log('skipping', person, path);
       continue;
     }
     const work = await allWorks[path]();
@@ -10,7 +11,8 @@ export const getPersonsWorks = async (person) => {
     fm.url = work.url;
     fm.file = work.file;
     fm.path = path;
-    worksF.push(fm);
+    works.push(fm);
   }
-  return worksF;
+  // console.log('using', works);
+  return works;
 };

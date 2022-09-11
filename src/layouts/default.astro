@@ -8,15 +8,11 @@ import Link from '@components/LinkTT.astro';
 
 let title = 'Aidan & Margaret Nichol';
 const persons = await Astro.glob('../pages/*.md');
-let header = '/src/assets/images/SeahorseHeading2.jpg';
+let header = '../assets/images/SeahorseHeading2.jpg';
 ---
 
 <Layout title='Aidan & Margaret Nichol'>
   <main>
-    <!-- <header>
-			<Image src={import(header)} width={700} />
-		</header> -->
-
     <div id='banner'>
       <nav class='navbar'>
         <Link href='/' title='Home' />

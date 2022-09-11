@@ -1,0 +1,17 @@
+---
+import { Image, Picture } from '@astrojs/image/components';
+import { parseImageName } from '@utils/parseImageName.mjs';
+let { image, person } = Astro.props;
+let [sub, img, extL] = parseImageName(image, person);
+---
+
+{
+  sub && img && (
+    <Picture
+      src={import(`../assets/images/${sub}/${img}.jpg`)}
+      widths={[400, 700]}
+      sizes='(max-width:400px) 100vw, 700px'
+      alt=''
+    />
+  )
+}
