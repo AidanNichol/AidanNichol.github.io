@@ -14,7 +14,7 @@ const layoutOptions = {
 // https://astro.build/config
 export default defineConfig({
 	trailingSlash: "never",
-	site: "https://docs.nicholware.com",
+	site: "https://nicholware.art",
 	integrations: [image(), mdx()],
 	markdown: {
 		remarkPlugins: [
