@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+const heritageEntries = await getCollection('heritage');
+---
+
+<h1>The current URL is: {Astro.url}</h1>
+<h1>The current URL pathname is: {Astro.url.pathname}</h1>
+<h1>The current URL origin is: {Astro.url.origin}</h1>
+<h1>The site is: {Astro.site}</h1>
+<ul>
+  {
+    heritageEntries.map((blogPostEntry) => (
+      <li>
+        <a href={`heritage/${blogPostEntry.slug}`}>{blogPostEntry.data.title}</a>
+
+        {blogPostEntry.data.museum}
+      </li>
+    ))
+  }
+</ul>

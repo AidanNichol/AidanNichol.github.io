@@ -1,11 +1,13 @@
 ---
+import { getCollection } from 'astro:content';
 import { Image } from '@astrojs/image/components';
 import Layout from '@layouts/default.astro';
 import { parseImageName } from '@utils/parseImageName.mjs';
 import { getPersonsWorks } from '@utils/getPersonsWorks.mjs';
 const { frontmatter: page } = Astro.props;
-
-const worksF = await getPersonsWorks(page.person);
+// console.log('peron', Astro.props);
+const collectionEntries = await getCollection(page.person);
+// const worksF = await getPersonsWorks(page.person);
 ---
 
 <Layout>
@@ -13,21 +15,23 @@ const worksF = await getPersonsWorks(page.person);
   <slot />
   <div class='works'>
     {
-      worksF.map(async (work) => {
+      collectionEntries.map(async (work) => {
+        const data = work.data;
         // let work = workF.frontmatter;
-        let [sub, img, extL] = parseImageName(work.thumbnail || work.image);
+        // console.log('work', { work, data });
+        let [sub, img, extL] = parseImageName(data.thumbnail || data.image, page.person);
 
         // let img = work.image.replace('.jpg', '');
         return (
-          <a href={work.url}>
+          <a href={`${work.collection}/${work.slug}`}>
             <Image
-              src={import(`../assets/images/${sub || work.person}/${img}.jpg`)}
+              src={import(`../assets/images/${sub || data.person}/${img}.jpg`)}
               width={100}
               format='jpeg'
               height={100}
               alt='image of the work'
             />
-            {work.shortname || work.title}
+            {data.shortname || data.title}
           </a>
         );
       })

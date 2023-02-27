@@ -1,17 +1,20 @@
 ---
-import { Image, Picture } from '@astrojs/image/components';
+import {  Picture } from '@astrojs/image/components';
 import { parseImageName } from '@utils/parseImageName.mjs';
 let { image, person } = Astro.props;
-let [sub, img, extL] = parseImageName(image, person);
----
+let [sub, name, extL] = parseImageName(image, person);
+let usePicture = (sub && name && extL)&& (['avif', 'gif', 'heic', 'heif', 'jpeg', 'jpg', 'png', 'tiff', 'webp'].includes(extL))
+console.log('ShowImage', {image, name,person, sub,name,extL, usePicture})
+let img;
+let imgL;
+let svgL;
+let width=700;
+if (usePicture)img = import(`../assets/images/${sub}/${name}.${extL}`)
 
-{
-  sub && img && (
-    <Picture
-      src={import(`../assets/images/${sub}/${img}.jpg`)}
-      widths={[400, 700]}
-      sizes='(max-width:400px) 100vw, 700px'
-      alt=''
-    />
-  )
-}
+const sizes = '(max-width:400px) 100vw, 700px';
+---
+ {usePicture && <Picture src={img} widths={[400, 700]} sizes={sizes} alt='' />}
+ {!usePicture && <div><img src={`/images/${sub}/${name}.${extL}`} width={width}  /></div>}
+ {!usePicture && <a href={`/images/${sub}/${name}.pdf`} target="_blank"}>view pdf</a>}
+
+ 

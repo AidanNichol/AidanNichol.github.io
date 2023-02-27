@@ -12,7 +12,9 @@
   "devDependencies": {
     "@astrojs/image": "^0.5.0",
     "@astrojs/mdx": "^0.11.1",
-    "astro": "^1.1.5",
+    "@types/lodash-es": "^4.17.6",
+    "astro": "^2.0.4",
+    "astro-layouts": "^1.0.0",
     "eslint": "^8.23.0",
     "eslint-plugin-astro": "^0.18.0",
     "prettier": "^2.7.1",
