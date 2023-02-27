@@ -21,7 +21,7 @@ let base= import.meta.env.MODE==='development'? `${page.person}/`:'';
         // let work = workF.frontmatter;
         // console.log('work',work.collection,work.slug);
         let [sub, img, extL] = parseImageName(data.thumbnail || data.image, page.person);
-        let url = `${base}${work.slug}`;
+        let url = `/${page.person}/${work.slug}`;
 
         // let img = work.image.replace('.jpg', '');
         return (

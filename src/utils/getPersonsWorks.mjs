@@ -6,7 +6,7 @@ export const getPersonsWorks = async (person) => {
 	// const allWorks = import.meta.glob("../pages/**/*.{md,mdx}");
 	const works = [];
 	for (const work in allWorks) {
-		let url = `${base}${work.slug}`;
+		let url = `/${person}/${work.slug}`;
 
 		const fm = work.data;
 		fm.url = url;
