@@ -14,7 +14,7 @@ const { collection, slug, page } = Astro.props;
 
 const collectionEntries = await getCollection(collection)
  collectionEntries.forEach(cllctn => {
-  cllctn.url=`${cllctn.slug}`
+  cllctn.url=`/${collection}/${cllctn.slug}`
  });
 // console.log('props', Astro.props, collectionEntries)
 

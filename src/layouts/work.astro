@@ -21,6 +21,7 @@ for (let i = 0; i < works.length; i++) {
     if (i < works.length - 1) next = works[i + 1];
   }
 }
+console.log('work.astro', prev, next)
 
 let dispDate = (v) =>{
     if (_.isNumber(v))return `${v}`;
@@ -66,17 +67,19 @@ if (!gotCreatedBy)details.unshift( ['Created by',capitalize(`${page.person} Nich
 
 details=_.uniqBy(details, (v)=>v[0])
         let [sub, img, extL] = parseImageName(page.image, page.person);
-
+console.log('work.astro', prev, next)
 ---
 
 <Layout>
-   <div class="prevNext">
+  Work Layout
+  <div class="prevNext">
     {prev ? <LinkTT href={prev.url} title={shortName(prev)} tooltip left /> : <div />}
-
-    <h1>{page.title}
-   {page.subtitle && <div>{page.subtitle} </div>}</h1>
-    {next ? <LinkTT href={next.url} title={shortName(next)} tooltip right /> : <div />}
-  </div>
+    
+    <h1>{page.title} xxx
+      {page.subtitle && <div>{page.subtitle} </div>}</h1>
+      {next ? <LinkTT href={next.url} title={shortName(next)} tooltip right /> : <div />}
+    </div>
+    <div>{prev?.url} --- {next?.url}</div>
   <div class="clearfix">
     <div class="details">
       {
@@ -88,7 +91,7 @@ details=_.uniqBy(details, (v)=>v[0])
         })
       }
     </div>
-
+pReslot
     <slot />
   </div>
   <ShowImage image={page.image} person={page.person}/>

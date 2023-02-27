@@ -9,6 +9,7 @@ const layoutOptions = {
 	"content/**/*": null,
 	"pages/aidan/**/*": "/src/layouts/work.astro",
 	"pages/margaret/**/*": "/src/layouts/work.astro",
+	"pages/heritage/**/*": "/src/layouts/work.astro",
 };
 
 // https://astro.build/config
