@@ -8,6 +8,7 @@ const { frontmatter: page } = Astro.props;
 // console.log('peron', Astro.props);
 const collectionEntries = await getCollection(page.person);
 // const worksF = await getPersonsWorks(page.person);
+let base= import.meta.env.MODE==='development'? `${page.person}/`:'';
 ---
 
 <Layout>
@@ -18,12 +19,13 @@ const collectionEntries = await getCollection(page.person);
       collectionEntries.map(async (work) => {
         const data = work.data;
         // let work = workF.frontmatter;
-        // console.log('work', { work, data });
+        // console.log('work',work.collection,work.slug);
         let [sub, img, extL] = parseImageName(data.thumbnail || data.image, page.person);
+        let url = `${base}${work.slug}`;
 
         // let img = work.image.replace('.jpg', '');
         return (
-          <a href={`${work.collection}/${work.slug}`}>
+          <a href={url}>
             <Image
               src={import(`../assets/images/${sub || data.person}/${img}.jpg`)}
               width={100}

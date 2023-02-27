@@ -1,6 +1,6 @@
 ---
 person: heritage
-shortname: heritage
+shortname: Heritage
 name: Quilting Designs
 layout: '@layouts/person.astro'
 ---
