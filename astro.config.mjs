@@ -22,6 +22,5 @@ export default defineConfig({
 			remarkGfm,
 			[remarkSmartypants, { dashes: "oldschool" }],
 		],
-		// extendDefaultPlugins: true,
 	},
 });

@@ -4,7 +4,7 @@ import { parseImageName } from '@utils/parseImageName.mjs';
 let { image, person } = Astro.props;
 let [sub, name, extL] = parseImageName(image, person);
 let usePicture = (sub && name && extL)&& (['avif', 'gif', 'heic', 'heif', 'jpeg', 'jpg', 'png', 'tiff', 'webp'].includes(extL))
-console.log('ShowImage', {image, name,person, sub,name,extL, usePicture})
+// console.log('ShowImage', {image, name,person, sub,name,extL, usePicture})
 let img;
 let imgL;
 let svgL;
