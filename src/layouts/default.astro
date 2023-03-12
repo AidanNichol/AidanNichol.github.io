@@ -9,6 +9,12 @@ import Link from '@components/LinkTT.astro';
 let title = 'Aidan & Margaret Nichol';
 const persons = await Astro.glob('../pages/*.md');
 let header = '../assets/images/SeahorseHeading2.jpg';
+console.log(persons[0].file, persons[0].frontmatter)
+let heritageIndex=persons.findIndex(f=>f.frontmatter.person==='heritage')
+let heritage=persons.splice(heritageIndex, 1)
+
+persons.push(...heritage)
+persons.forEach(p=>console.log(p?.frontmatter?.person))
 ---
 
 <Layout title='Aidan & Margaret Nichol'>
