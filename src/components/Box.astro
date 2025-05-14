@@ -1,0 +1,38 @@
+---
+export interface Props {
+  name?: string;
+  color?: string;
+  thisFile?: string;
+}
+let style = '';
+let title = '';
+const show = true;
+let { name, color, thisFile } = Astro.props as Props;
+if (import.meta.env.DEV && show) {
+  if (thisFile) {
+    name = thisFile.replace(/.*\/src\//, '');
+  }
+  style = ` outline: dashed thick ${color ?? 'green'};`;
+}
+---
+
+<div {style}>
+  <span class='name'>{name ?? ''} </span>
+  <div>{thisFile}</div>
+  <slot />
+</div>
+<style>
+  div,
+  span {
+    position: relative;
+  }
+  span.name {
+    display: inline-block;
+    top: -0.6lh;
+    font-size: 0.8em;
+    padding: 0 1em;
+    z-index: 10;
+    background-color: white;
+    width: auto;
+  }
+</style>

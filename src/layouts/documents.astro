@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Layout from '@layouts/default.astro';
+import { parseImageName } from '@utils/parseImageName.mjs';
+import { getPersonsWorks } from '@utils/getPersonsWorks.mjs';
+import Box from '@components/Box.astro';
+const thisFile = import.meta.url;
+
+const { frontmatter: page } = Astro.props;
+// console.log('peron', Astro.props);
+const collectionEntries = await getCollection('docs');
+console.log(Astro.props);
+console.log('collectionEntries', collectionEntries);
+// const worksF = await getPersonsWorks(page.person);
+// const base = import.meta.env.MODE === 'development' ? `${page.person}/` : '';
+---
+
+<Layout>
+  <Box {thisFile}>
+    <h1>{page.name}</h1>
+    <slot />
+    <div class='works'>
+      {
+        collectionEntries.map(async (work) => {
+          const data = work.data;
+          // let work = workF.frontmatter;
+          // console.log('work',work.collection,work.slug);
+          let [sub, img, extL] = parseImageName(
+            data.thumbNail || data.image,
+            page.person,
+          );
+          let url = `/pdf/${data.pdf}`;
+
+          // let img = work.image.replace('.jpg', '');
+          return (
+            <a href={url} target='_blank'>
+              <Image
+                src={
+                  import(`../assets/images/${sub || data.person}/${img}.${extL ?? 'jpg'}`)
+                }
+                width={100}
+                format='jpeg'
+                height={100}
+                alt='image of the work'
+              />
+              {data.title}
+            </a>
+          );
+        })
+      }
+    </div>
+  </Box>
+</Layout>
+<style>
+  .works {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 100px));
+    gap: 1rem;
+    padding: 0;
+  }
+  a {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: black;
+    font-size: 0.5rem;
+  }
+</style>

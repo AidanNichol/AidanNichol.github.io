@@ -2,7 +2,8 @@
 person: heritage
 shortname: Heritage
 name: Quilting Designs
-layout: '@layouts/person.astro'
+seq: cc
+layout: '../layouts/person.astro'
 ---
 Since 2016 we have documented the quilting patterns in a several heritage quilts.
 

@@ -1,0 +1,35 @@
+{
+  "$ref": "#/definitions/heritage",
+  "definitions": {
+    "heritage": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "museum": {
+          "type": "string"
+        },
+        "quilter": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "dimensions": {
+          "type": "string"
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "museum",
+        "quilter"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

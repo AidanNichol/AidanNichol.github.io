@@ -1,4 +1,5 @@
 ---
+
 export interface Props {
   title?: string;
   href: string;
@@ -6,7 +7,7 @@ export interface Props {
   right?: boolean;
   tooltip?: boolean;
 }
-import _ from 'lodash-es';
+import * as _ from 'lodash-es';
 const { href, title, left, right, tooltip } = Astro.props as Props;
 const url = new URL(Astro.request.url);
 let pathname = new URL(Astro.request.url).pathname;

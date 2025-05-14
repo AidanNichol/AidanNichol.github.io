@@ -1,0 +1,91 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import { parseImageName } from '@utils/parseImageName.mjs';
+import type { CollectionEntry } from 'astro:content';
+type Coll = CollectionEntry<'aidan'>;
+
+interface Props {
+  collection: string;
+  entries: Coll[];
+  parent: string | undefined;
+  parentPage: Coll | undefined;
+}
+const { entries, collection, parent, parentPage } = Astro.props;
+// const url = (cllctn: Coll) => `/${cllctn.collection}/${cllctn.id}`;
+
+console.log('parentPage', parentPage);
+console.log('parent', parent);
+---
+
+<div class='works'>
+  {
+    parent && (
+      <a href={parent} title={`return to ${parentPage?.data.title}`}>
+        <span class='narrow'>⬆️</span>
+      </a>
+    )
+  }{
+    entries.map(async (work: Coll) => {
+      const data = work.data;
+      // let work = workF.frontmatter;
+      // console.log('work',work.collection,work.slug);
+      let [sub, img, extL] = parseImageName(data.thumbNail || data.image, collection);
+      let url = `/${collection}/${work.id}`;
+      console.log('parseName', { sub, img, extL, url });
+      // let img = work.image.replace('.jpg', '');
+      return (
+        <a href={url}>
+          <Image
+            src={import(`../assets/images/${sub || data.person}/${img}.${extL ?? 'jpg'}`)}
+            width={100}
+            format='jpeg'
+            height={100}
+            fit='contain'
+            alt='image of the work'
+          />
+          <span>{data.subtitle || data.shortname || data.title}</span>
+        </a>
+      );
+    })
+  }
+  {
+    parent && (
+      <a href={parent} title={`return to ${parentPage?.data.title}`}>
+        <span class='narrow'>⬆️</span>
+      </a>
+    )
+  }
+</div>
+
+<style>
+  .works a img {
+    object-fit: cover;
+  }
+  .works {
+    /* display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 100px)); */
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 0;
+    width: 100%;
+    justify-content: center;
+  }
+  a {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: black;
+    font-size: 0.5rem;
+  }
+  a span {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+  }
+  a span.narrow {
+    width: auto;
+    font-size: 1.5rem;
+  }
+</style>

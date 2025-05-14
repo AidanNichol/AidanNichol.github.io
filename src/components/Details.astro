@@ -1,0 +1,104 @@
+---
+import _ from 'lodash-es';
+import { format, parse } from 'date-fns';
+import type { CollectionEntry } from 'astro:content';
+
+type Fm = CollectionEntry<'aidan'>['data'];
+
+interface Props {
+  entry: Fm;
+  collection: string;
+}
+
+const { entry, collection } = Astro.props;
+console.log('prpos', Astro.props);
+
+let dispDate = (v: string) => {
+  if (_.isNumber(v)) return `${v}`;
+  if (v.length !== 10) v = `${v}-01-01`.substring(0, 10);
+  let val = parse(v, 'yyyy-MM-dd'.substring(0, v.length), new Date());
+  return format(val, 'MMM yyyy');
+};
+const mmToInch = (v: number) => {
+  let val = Math.round(v * 0.0393701 * 4); //convert to ¼ inches
+  // let ins = Math.floor(val / 4);
+  // let fract = ["", "¼", "½", "¾"][val % 4];
+  // console.log(v, val, ins, fract, val % 4);
+  return `${Math.floor(val / 4)}${['', '¼', '½', '¾'][val % 4]}`;
+};
+let dispDims = (v: any) => {
+  let [, wd, ht, units] = v.match(/([0-9.]+)\s*\S\s*([0-9.]+)\s*(in|cm|mm)/);
+  const fact = units === 'cm' ? 10 : units === 'in' ? 25.4 : 1;
+  let wdMm = _.round(wd * fact, 0);
+  let htMm = _.round(ht * fact, 0);
+  // console.log(wd, ht, wdMm, htMm, units);
+  return `${_.round(wdMm / 10, 0)}×${_.round(htMm / 10, 0)} cm (${mmToInch(
+    wdMm,
+  )}×${mmToInch(htMm)} in)`;
+};
+
+// console.log(page);
+
+let detail = _.omit(entry, [
+  'image',
+  'title',
+  'shortname',
+  'file',
+  'url',
+  'astro',
+  'sortname',
+  'person',
+  'thumbNail',
+  'subtitle',
+  'subPages',
+]) as Fm;
+const capitalize = (val: string) => {
+  const words = _.split(val, ' ').map((w) =>
+    /^(a|the|of|in|mm|cm)$/g.test(w) ? w : _.capitalize(w),
+  );
+  return words.join(' ');
+};
+let gotCreatedBy = false;
+let detPairs = Object.entries(detail) as [string, string][];
+detPairs = detPairs.map(([key, val]) => {
+  let label = _.capitalize(_.snakeCase(key).replace(/_/g, ' '));
+  if (label === 'Created by') gotCreatedBy = true;
+  if (label === 'Dimensions') val = dispDims(val);
+  if (['Completed', 'Started'].includes(label)) val = dispDate(val);
+  // console.log(key,val,label, capitalize(val))
+  return [label, capitalize(val)];
+});
+if (!gotCreatedBy && collection !== 'heritage')
+  detPairs.unshift(['Created by', capitalize(`${entry.person} Nichol`)]);
+
+detPairs = _.uniqBy(detPairs, (v) => v[0]);
+---
+
+<div class='details'>
+  {
+    detPairs.map(([label, val]) => {
+      if (!val) return;
+      return (
+        <>
+          <span>{label}:</span>
+          <span>{val}</span>
+        </>
+      );
+    })
+  }
+</div>
+
+<style>
+  .details {
+    float: right;
+    border: thin solid black;
+    padding: 4px;
+    font-size: 0.7em;
+    border-radius: 3px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    width: 250px;
+    justify-content: space-between;
+    grid-column-gap: 4px;
+  }
+</style>

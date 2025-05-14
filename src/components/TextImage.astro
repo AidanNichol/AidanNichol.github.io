@@ -8,7 +8,7 @@ export interface Props {
 }
 
 import _ from 'lodash-es';
-import { Image } from '@astrojs/image/components';
+import { Image } from 'astro:assets';
 import { parseImageName } from '@utils/parseImageName.mjs';
 
 let { left, right, rotate, width = undefined, height = undefined } = Astro.props as Props;

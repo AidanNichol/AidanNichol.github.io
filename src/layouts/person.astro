@@ -1,46 +1,69 @@
 ---
 import { getCollection } from 'astro:content';
-import { Image } from '@astrojs/image/components';
+import { Image } from 'astro:assets';
 import Layout from '@layouts/default.astro';
 import { parseImageName } from '@utils/parseImageName.mjs';
 import { getPersonsWorks } from '@utils/getPersonsWorks.mjs';
+import type { CollectionEntry } from 'astro:content';
+import Box from '@components/Box.astro';
+const thisFile = import.meta.url;
+interface Props {
+  post: CollectionEntry<'heritage'>;
+}
 const { frontmatter: page } = Astro.props;
 // console.log('peron', Astro.props);
-const collectionEntries = await getCollection(page.person);
+const collectionEntries = await getCollection(
+  page.person,
+  (work) => !(work?.id ?? '').includes('/'),
+);
 // const worksF = await getPersonsWorks(page.person);
-let base= import.meta.env.MODE==='development'? `${page.person}/`:'';
+const base = import.meta.env.MODE === 'development' ? `${page.person}/` : '';
 ---
 
 <Layout>
-  <h1>{page.name}</h1>
-  <slot />
-  <div class='works'>
-    {
-      collectionEntries.map(async (work) => {
-        const data = work.data;
-        // let work = workF.frontmatter;
-        // console.log('work',work.collection,work.slug);
-        let [sub, img, extL] = parseImageName(data.thumbnail || data.image, page.person);
-        let url = `/${page.person}/${work.slug}`;
+  <Box {thisFile} color='red'>
+    <h1>{page.name}</h1>
+    <slot />
+    <div class='works'>
+      {
+        collectionEntries.map(async (work) => {
+          const data = work.data;
+          // let work = workF.frontmatter;
+          // console.log('work',work.collection,work.id);
+          let [sub, img, extL] = parseImageName(
+            data.thumbNail || data.image,
+            page.person,
+          );
+          let url = `/${page.person}/${work.id}`;
 
-        // let img = work.image.replace('.jpg', '');
-        return (
-          <a href={url}>
-            <Image
-              src={import(`../assets/images/${sub || data.person}/${img}.jpg`)}
-              width={100}
-              format='jpeg'
-              height={100}
-              alt='image of the work'
-            />
-            {data.shortname || data.title}
-          </a>
-        );
-      })
-    }
-  </div>
+          // let img = work.image.replace('.jpg', '');
+          return (
+            <a href={url}>
+              <Image
+                src={
+                  import(`../assets/images/${sub || data.person}/${img}.${extL ?? 'jpg'}`)
+                }
+                width={100}
+                format='jpeg'
+                height={100}
+                alt='image of the work'
+              />
+              {data.shortname || data.title}
+            </a>
+          );
+        })
+      }
+    </div>
+  </Box>
 </Layout>
+
 <style>
+  .isDev {
+    outline: dashed blue;
+  }
+  [data-isDev] {
+    outline: dashed red;
+  }
   .works {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 100px));
@@ -53,5 +76,8 @@ let base= import.meta.env.MODE==='development'? `${page.person}/`:'';
     text-decoration: none;
     color: black;
     font-size: 0.5rem;
+    & img {
+      object-fit: cover;
+    }
   }
 </style>

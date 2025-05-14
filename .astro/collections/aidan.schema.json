@@ -1,0 +1,55 @@
+{
+  "$ref": "#/definitions/aidan",
+  "definitions": {
+    "aidan": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "person": {
+          "type": "string"
+        },
+        "quiltedBy": {
+          "type": "string"
+        },
+        "designedBy": {
+          "type": "string"
+        },
+        "completed": {
+          "type": "string"
+        },
+        "shortname": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "technique": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "thumbNail": {
+          "type": "string"
+        },
+        "dimensions": {
+          "type": "string"
+        },
+        "subPages": {
+          "type": "string"
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "person"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
