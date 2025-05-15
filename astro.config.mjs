@@ -28,7 +28,7 @@ export default defineConfig({
   env: {
     schema: {
       SHOW_BOX: envField.boolean({ access: 'public', context: 'client', default: false }),
-      BOX_STYLE: envField.string({ context: 'client', access: 'public', defaut: '' }),
+      BOX_STYLE: envField.string({ context: 'client', access: 'public', default: '' }),
     },
   },
 });
