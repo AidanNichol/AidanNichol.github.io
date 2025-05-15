@@ -8,7 +8,7 @@ import Details from '@components/Details.astro';
 import SubpagesMenu from '@components/SubpagesMenu.astro';
 // import * as _ from 'lodash-es';
 import Box from '@components/Box.astro';
-const thisFile = import.meta.url;
+// const thisFile = import.meta.url;
 
 import { parseImageName } from '@utils/parseImageName.mjs';
 import type { CollectionEntry } from 'astro:content';
@@ -62,7 +62,7 @@ let [sub, img, extL] = parseImageName(page.image, page.person);
 ---
 
 <Layout>
-  <Box {thisFile} color='blue'>
+  <Box name='Collection' color='blue'>
     <div class='prevNext'>
       {prev ? <LinkTT href={url(prev)} title={shortName(prev)} tooltip left /> : <div />}
 

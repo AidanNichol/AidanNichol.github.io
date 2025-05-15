@@ -2,31 +2,30 @@
 export interface Props {
   name?: string;
   color?: string;
-  thisFile?: string;
 }
+import { SHOW_BOX, BOX_STYLE } from 'astro:env/client';
+
 let style = '';
 let title = '';
-const show = true;
-let { name, color, thisFile } = Astro.props as Props;
-if (import.meta.env.DEV && show) {
-  if (thisFile) {
-    name = thisFile.replace(/.*\/src\//, '');
-  }
-  style = ` outline: dashed thick ${color ?? 'green'};`;
+
+const show = SHOW_BOX && import.meta.env.DEV;
+console.log({ show, SHOW_BOX, BOX_STYLE });
+let { name, color } = Astro.props as Props;
+if (show) {
+  style = ` outline: ${BOX_STYLE} ${color ?? 'green'};`;
 }
 ---
 
 <div {style}>
-  <span class='name'>{name ?? ''} </span>
-  <div>{thisFile}</div>
+  {show && <span class='name'>{name ?? ''} </span>}
   <slot />
 </div>
 <style>
-  div,
-  span {
+  div {
     position: relative;
   }
   span.name {
+    position: absolute;
     display: inline-block;
     top: -0.6lh;
     font-size: 0.8em;

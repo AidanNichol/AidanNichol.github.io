@@ -13,6 +13,9 @@
         "image": {
           "type": "string"
         },
+        "thumbNail": {
+          "type": "string"
+        },
         "$schema": {
           "type": "string"
         }

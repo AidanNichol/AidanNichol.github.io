@@ -5,9 +5,8 @@ import Layout from '@layouts/default.astro';
 import { parseImageName } from '@utils/parseImageName.mjs';
 import { getPersonsWorks } from '@utils/getPersonsWorks.mjs';
 import Box from '@components/Box.astro';
-const thisFile = import.meta.url;
 
-const { frontmatter: page } = Astro.props;
+const page = Astro.props.page ?? Astro.props.frontmatter;
 // console.log('peron', Astro.props);
 const collectionEntries = await getCollection('docs');
 console.log(Astro.props);
@@ -17,8 +16,8 @@ console.log('collectionEntries', collectionEntries);
 ---
 
 <Layout>
-  <Box {thisFile}>
-    <h1>{page.name}</h1>
+  <Box name='documents'>
+    <h1>{page?.title}</h1>
     <slot />
     <div class='works'>
       {

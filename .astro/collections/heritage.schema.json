@@ -16,6 +16,9 @@
         "image": {
           "type": "string"
         },
+        "thumbNail": {
+          "type": "string"
+        },
         "dimensions": {
           "type": "string"
         },

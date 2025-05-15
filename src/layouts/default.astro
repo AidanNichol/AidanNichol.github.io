@@ -8,7 +8,6 @@ let title = 'Aidan & Margaret Nichol';
 const persons: any[] = Object.values(import.meta.glob('../pages/*.md', { eager: true }));
 persons.sort((a, b) => a.frontmatter.seq.localeCompare(b.frontmatter.seq));
 let header = '../assets/images/SeahorseHeading2.jpg';
-console.log(persons[0].file, persons[0].frontmatter);
 ---
 
 <Layout title='Aidan & Margaret Nichol'>

@@ -11,6 +11,7 @@ const heritageSchema = defineCollection({
     museum: z.string(),
     quilter: z.string(),
     image: z.string().optional(),
+    thumbNail: z.string().optional(),
     dimensions: z.string().optional(),
   }),
 });
@@ -20,6 +21,7 @@ const documentSchema = defineCollection({
     title: z.string(),
     pdf: z.string(),
     image: z.string().optional(),
+    thumbNail: z.string().optional(),
   }),
 });
 const personSchema = z.object({

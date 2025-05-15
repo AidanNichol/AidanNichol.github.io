@@ -6,7 +6,6 @@ import { parseImageName } from '@utils/parseImageName.mjs';
 import { getPersonsWorks } from '@utils/getPersonsWorks.mjs';
 import type { CollectionEntry } from 'astro:content';
 import Box from '@components/Box.astro';
-const thisFile = import.meta.url;
 interface Props {
   post: CollectionEntry<'heritage'>;
 }
@@ -21,7 +20,7 @@ const base = import.meta.env.MODE === 'development' ? `${page.person}/` : '';
 ---
 
 <Layout>
-  <Box {thisFile} color='red'>
+  <Box name='person' color='red'>
     <h1>{page.name}</h1>
     <slot />
     <div class='works'>
