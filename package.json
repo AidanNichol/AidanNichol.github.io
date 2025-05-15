@@ -1,6 +1,6 @@
 {
   "name": "@example/basics",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "private": true,
   "scripts": {
     "dev": "astro dev",
@@ -29,5 +29,6 @@
     "lodash-es": "^4.17.21",
     "remark-gfm": "^4.0.1",
     "remark-smartypants": "^3.0.2"
-  }
+  },
+  "packageManager": "pnpm@3.1.0"
 }
