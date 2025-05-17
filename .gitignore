@@ -1,6 +1,7 @@
 # build output
 dist/
 .output/
+.astro/
 
 # dependencies
 node_modules/
@@ -20,3 +21,4 @@ pnpm-debug.log*
 .DS_Store
 .vscode/settings.json
 junk
+.astro/content-modules.mjs
