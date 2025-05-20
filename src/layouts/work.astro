@@ -1,0 +1,130 @@
+---
+import { getCollection, DataCollectionKey } from 'astro:content';
+import ShowImage from '@components/ShowImage.astro';
+import Layout from '@layouts/default.astro';
+import LinkTT from '../components/LinkTT.astro';
+import Details from '@components/Details.astro';
+import ContentIndex from '@components/ContentIndex.astro';
+// import * as _ from 'lodash-es';
+import Box from '@components/Box.astro';
+// const thisFile = import.meta.url;
+
+import { parseImageName } from '@utils/parseImageName.mjs';
+import type { CollectionEntry, CollectionKey } from 'astro:content';
+import type { Entry } from '../content.config.js';
+
+interface Props {
+  entry: Entry;
+  entryIndex: number;
+  collectionEntries: Entry[];
+  baseUrl?: string;
+}
+// console.log('props', Astro.props, collectionEntries)
+
+const { collectionEntries, entry, entryIndex, baseUrl } = Astro.props;
+const { collection, id, data } = entry;
+const base = `${baseUrl ?? ''}${collection}`;
+console.log('props', base, id, collection, data, Astro.props);
+const url = (work: Entry) => `/${base}/${work.id}`;
+let shortName = (work: Entry) => work.data.shortname ?? work.data.title;
+
+let prev: Entry | undefined = collectionEntries[entryIndex - 1];
+let next: Entry | undefined = collectionEntries[entryIndex + 1];
+
+// const collectionEntries: Entry[] = await getCollection(
+//   collection,
+//   (entry: Entry) => !entry.id.includes('/'),
+// );
+const subPages = data.subPages as DataCollectionKey;
+// let subPages: Entry[] | undefined;
+let parent = baseUrl ? `/${base}` : undefined;
+let parentPage;
+// if (hasSubpages) {
+//   const idParts = id.split('/');
+//   const subset = `${data.subPages || idParts[0]}/`;
+//   console.log({ hasSubpages, subset, idParts });
+//   subPages = await getCollection(collection, (entry: Entry) => entry.id.includes(subset));
+//   if (id.includes('/')) {
+//     parentPage = collectionEntries.find((e) => e.data.subPages === idParts[0]) as Entry;
+
+//     parent = url(parentPage);
+//     console.log('parentPage', { parent }, parentPage);
+//   }
+// }
+
+let [sub, img, extL] = parseImageName(data.image, collection);
+---
+
+<Layout>
+  <Box name='Work' color='blue'>
+    <div class='prevNext'>
+      {prev ? <LinkTT href={url(prev)} title={shortName(prev)} tooltip left /> : <div />}
+
+      <h1>
+        {
+          parent && (
+            <a href={parent} title={`return to ${'Durham Triptych  '}`}>
+              <span class='narrow'>⬆️</span>
+            </a>
+          )
+        }
+        {data.title}
+        {data.subtitle && <div>{data.subtitle} </div>}
+      </h1>
+      {next ? <LinkTT href={url(next)} title={shortName(next)} tooltip right /> : <div />}
+    </div>
+    <div class='clearfix'>
+      <Details collection={collection} entry={data} />
+      <slot />
+    </div>
+    {data.image && <ShowImage image={data.image} person={collection} />}
+    {subPages && <ContentIndex collection={subPages} base={`${base}/${subPages}`} />}
+    <div class='prevNext'>
+      {prev ? <LinkTT href={url(prev)} title={shortName(prev)} left /> : <div />}
+      {
+        parent && (
+          <a href={parent} title={`return to ${'Durham Triptych  '}`}>
+            <span class='narrow'>⬆️</span>
+          </a>
+        )
+      }
+      {next ? <LinkTT href={url(next)} title={shortName(next)} right /> : <div />}
+    </div>
+  </Box>
+</Layout>
+
+<style>
+  h1 {
+    margin: 0;
+    width: 100%;
+    text-align: center;
+    & a {
+      display: block;
+      font-size: 1rem;
+    }
+  }
+  .prevNext {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    position: relative;
+  }
+  .prevNext > div {
+    align-self: flex-start;
+  }
+  .clearfix:after {
+    /* content: '.';
+    visibility: hidden; */
+    display: flow-root;
+    /* height: 0;
+    clear: both; */
+  }
+</style>
+<style>
+  .table {
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+</style>

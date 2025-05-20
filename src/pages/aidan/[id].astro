@@ -1,11 +1,11 @@
 ---
 import { getCollection, render } from 'astro:content';
-import Layout from '../../layouts/work.astro';
+import Layout from '@layouts/work.astro';
 import type { Entry } from '../../content.config.js';
 
 // 1. Generate a new path for every collection entry
 export async function getStaticPaths() {
-  const collectionEntries = await getCollection('margaret');
+  const collectionEntries = await getCollection('aidan');
   return collectionEntries.map((entry, i) => ({
     params: { id: entry.id },
     props: { entry, collectionEntries, entryIndex: i },

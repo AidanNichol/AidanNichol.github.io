@@ -15,7 +15,7 @@ export default defineConfig({
     // experimentalLayout: 'constrained',
   },
   server: {
-    port: 4321,
+    port: 4323,
   },
   integrations: [mdx()],
   markdown: {

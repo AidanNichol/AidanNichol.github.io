@@ -6,10 +6,10 @@ import { parseImageName } from '@utils/parseImageName.mjs';
 import { getPersonsWorks } from '@utils/getPersonsWorks.mjs';
 import Box from '@components/Box.astro';
 
+console.log(Astro.props);
 const page = Astro.props.page ?? Astro.props.frontmatter;
 // console.log('peron', Astro.props);
 const collectionEntries = await getCollection('docs');
-console.log(Astro.props);
 console.log('collectionEntries', collectionEntries);
 // const worksF = await getPersonsWorks(page.person);
 // const base = import.meta.env.MODE === 'development' ? `${page.person}/` : '';

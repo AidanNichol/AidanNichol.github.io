@@ -7,6 +7,21 @@
         "title": {
           "type": "string"
         },
+        "shortname": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "thumbNail": {
+          "type": "string"
+        },
+        "completed": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
         "person": {
           "type": "string"
         },
@@ -16,22 +31,13 @@
         "designedBy": {
           "type": "string"
         },
-        "completed": {
+        "museum": {
           "type": "string"
         },
-        "shortname": {
-          "type": "string"
-        },
-        "subtitle": {
+        "quilter": {
           "type": "string"
         },
         "technique": {
-          "type": "string"
-        },
-        "image": {
-          "type": "string"
-        },
-        "thumbNail": {
           "type": "string"
         },
         "dimensions": {
@@ -40,13 +46,15 @@
         "subPages": {
           "type": "string"
         },
+        "pdf": {
+          "type": "string"
+        },
         "$schema": {
           "type": "string"
         }
       },
       "required": [
-        "title",
-        "person"
+        "title"
       ],
       "additionalProperties": false
     }

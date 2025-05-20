@@ -7,10 +7,7 @@
         "title": {
           "type": "string"
         },
-        "museum": {
-          "type": "string"
-        },
-        "quilter": {
+        "shortname": {
           "type": "string"
         },
         "image": {
@@ -19,7 +16,37 @@
         "thumbNail": {
           "type": "string"
         },
+        "completed": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "person": {
+          "type": "string"
+        },
+        "quiltedBy": {
+          "type": "string"
+        },
+        "designedBy": {
+          "type": "string"
+        },
+        "museum": {
+          "type": "string"
+        },
+        "quilter": {
+          "type": "string"
+        },
+        "technique": {
+          "type": "string"
+        },
         "dimensions": {
+          "type": "string"
+        },
+        "subPages": {
+          "type": "string"
+        },
+        "pdf": {
           "type": "string"
         },
         "$schema": {
@@ -27,9 +54,7 @@
         }
       },
       "required": [
-        "title",
-        "museum",
-        "quilter"
+        "title"
       ],
       "additionalProperties": false
     }

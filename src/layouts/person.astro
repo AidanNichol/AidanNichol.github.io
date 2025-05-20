@@ -5,16 +5,14 @@ import Layout from '@layouts/default.astro';
 import { parseImageName } from '@utils/parseImageName.mjs';
 import { getPersonsWorks } from '@utils/getPersonsWorks.mjs';
 import type { CollectionEntry } from 'astro:content';
+import ContentIndex from '@components/ContentIndex.astro';
+
 import Box from '@components/Box.astro';
-interface Props {
-  post: CollectionEntry<'heritage'>;
-}
+import type { Entry } from '../content.config.js';
+
 const { frontmatter: page } = Astro.props;
 // console.log('peron', Astro.props);
-const collectionEntries = await getCollection(
-  page.person,
-  (work) => !(work?.id ?? '').includes('/'),
-);
+const collectionEntries = (await getCollection(page.person)) as Entry[];
 // const worksF = await getPersonsWorks(page.person);
 const base = import.meta.env.MODE === 'development' ? `${page.person}/` : '';
 ---
@@ -23,8 +21,9 @@ const base = import.meta.env.MODE === 'development' ? `${page.person}/` : '';
   <Box name='person' color='red'>
     <h1>{page.name}</h1>
     <slot />
-    <div class='works'>
-      {
+    <div class='worksX'>
+      <ContentIndex collection={page.person} base={page.person} />
+      <!-- {
         collectionEntries.map(async (work) => {
           const data = work.data;
           // let work = workF.frontmatter;
@@ -40,7 +39,7 @@ const base = import.meta.env.MODE === 'development' ? `${page.person}/` : '';
             <a href={url}>
               <Image
                 src={
-                  import(`../assets/images/${sub || data.person}/${img}.${extL ?? 'jpg'}`)
+                  import(`../assets/images/${sub || page.person}/${img}.${extL ?? 'jpg'}`)
                 }
                 width={100}
                 format='jpeg'
@@ -51,7 +50,7 @@ const base = import.meta.env.MODE === 'development' ? `${page.person}/` : '';
             </a>
           );
         })
-      }
+      } -->
     </div>
   </Box>
 </Layout>

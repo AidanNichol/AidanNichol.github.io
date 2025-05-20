@@ -7,13 +7,22 @@
         "title": {
           "type": "string"
         },
-        "pdf": {
+        "shortname": {
           "type": "string"
         },
         "image": {
           "type": "string"
         },
         "thumbNail": {
+          "type": "string"
+        },
+        "completed": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "pdf": {
           "type": "string"
         },
         "$schema": {

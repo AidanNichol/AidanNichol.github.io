@@ -1,7 +1,7 @@
 {
-  "$ref": "#/definitions/margaret",
+  "$ref": "#/definitions/dt",
   "definitions": {
-    "margaret": {
+    "dt": {
       "type": "object",
       "properties": {
         "title": {
